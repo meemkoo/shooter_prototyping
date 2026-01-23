@@ -13,6 +13,8 @@ import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.math.Pair;
@@ -23,6 +25,7 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.MomentOfInertia;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import yams.mechanisms.config.FlyWheelConfig;
@@ -36,7 +39,7 @@ import yams.motorcontrollers.local.SparkWrapper;
 
 public class Shooter extends SubsystemBase {
     private SparkMax raw_shooter_motor0 = new SparkMax(51, MotorType.kBrushless);
-    //private SparkMax raw_shooter_motor1 = new SparkMax(52, MotorType.kBrushless);
+    private SparkMax raw_shooter_motor1 = new SparkMax(52, MotorType.kBrushless);
 
 
     private SmartMotorControllerConfig shooter_motor_config = new SmartMotorControllerConfig(this)
@@ -55,7 +58,7 @@ public class Shooter extends SubsystemBase {
 
         .withTelemetry("MOTORshooter", TelemetryVerbosity.HIGH)
 
-        .withFollowers(Pair.of(new SparkMax(42, MotorType.kBrushless), true))
+        .withFollowers(Pair.of(raw_shooter_motor1, true))
         ;
 
     private SmartMotorController smc = new SparkWrapper(raw_shooter_motor0, DCMotor.getNEO(2), shooter_motor_config);
@@ -78,8 +81,12 @@ public class Shooter extends SubsystemBase {
 
     }
 
-    public Command setVelocity(AngularVelocity velocity) {
-        return shootermech.setSpeed(velocity);
+    public Command setSpeed(double dutyCycle) {
+        return shootermech.set(dutyCycle);
+    }
+
+    public Command setVelocity(Supplier<AngularVelocity> velocity) {
+        return run(() ->shootermech.setSpeed(velocity.get()));
     }
 
     public AngularVelocity getVelocity() {
