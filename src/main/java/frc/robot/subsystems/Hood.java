@@ -154,7 +154,7 @@ import yams.motorcontrollers.remote.TalonFXWrapper;
 public class Hood extends SubsystemBase {
     TalonFX armMotor = new TalonFX(9);
     SmartMotorControllerConfig motorConfig = new SmartMotorControllerConfig(this)
-        .withClosedLoopController(0, 0, 0)//, DegreesPerSecond.of(180), DegreesPerSecondPerSecond.of(90))
+        .withClosedLoopController(2, 0, 0)//, DegreesPerSecond.of(180), DegreesPerSecondPerSecond.of(90))
         .withFeedforward(new ArmFeedforward(0, 0.865000, 50, 0))
         .withSoftLimit(Degrees.of(-30), Degrees.of(100))
         .withGearing(new MechanismGearing(GearBox.fromReductionStages(3, 4)))
