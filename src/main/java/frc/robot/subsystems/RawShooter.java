@@ -58,7 +58,7 @@ public class RawShooter extends SubsystemBase {
                     .outputRange(-1, 1)
                     .apply(
                         new FeedForwardConfig()
-                            .kV(0.001)
+                            .kV(0.002)
                     ).feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             )
         ;
