@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.logging.Mainlog;
+import frc.robot.subsystems.RawShooter;
 import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
@@ -16,7 +17,7 @@ public class RobotContainer {
 
     public CommandXboxController dctl = new CommandXboxController(0);
 
-    public Shooter shooter = new Shooter();
+    public RawShooter shooter = new RawShooter();
 
     public RobotContainer() {
         configureBindings();

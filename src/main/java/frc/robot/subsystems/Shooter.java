@@ -178,7 +178,7 @@ public class Shooter extends SubsystemBase {
         if (setvelocity.isEmpty()) {
             SmartDashboard.putNumber("yetpoint", 0);
             // SmartDashboard.putNumber("minus", 0);
-        } else {
+        } else { 
             // SmartDashboard.putNumber("minus", flywheel.getSpeed().in(RPM)-setvelocity.get().in(RPM));
             SmartDashboard.putNumber("yetpoint", setvelocity.get().in(RPM));
         }
