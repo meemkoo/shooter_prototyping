@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class RawShooter extends SubsystemBase {
+public class Flywheel extends SubsystemBase {
     private final DCMotor GEARBOX = DCMotor.getNEO(2);
 
     private SparkMax motor0 = new SparkMax(5, MotorType.kBrushless);
@@ -45,7 +45,7 @@ public class RawShooter extends SubsystemBase {
         ).withName("spinUp");
     private Command spinDown = run(() -> motor0.set(0)).withName("spinDown");
 
-    public RawShooter() {
+    public Flywheel() {
         SparkMaxConfig configroot = new SparkMaxConfig();
         configroot
             .smartCurrentLimit(50)

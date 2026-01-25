@@ -9,15 +9,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.logging.Mainlog;
-import frc.robot.subsystems.RawShooter;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Flywheel;
+import frc.robot.subsystems.Hood;
 
 public class RobotContainer {
     public Mainlog logging = new Mainlog();
 
     public CommandXboxController dctl = new CommandXboxController(0);
 
-    public RawShooter shooter = new RawShooter();
+    public Flywheel shooter = new Flywheel();
+    public Hood hood = new Hood();
 
     public RobotContainer() {
         configureBindings();
