@@ -18,14 +18,15 @@ public class RobotContainer {
     public CommandXboxController dctl = new CommandXboxController(0);
 
     public Flywheel shooter = new Flywheel();
-    public Hood hood = new Hood();
+    // public Hood hood = new Hood();
 
     public RobotContainer() {
         configureBindings();
     }
 
     private void configureBindings() {
-
+        dctl.a().whileTrue(shooter.spinUp).whileFalse(shooter.spinDown);
+        dctl.b().whileTrue(shooter.kickUp).whileFalse(shooter.kickDown);
     }
 
     public Command getAutonomousCommand() {

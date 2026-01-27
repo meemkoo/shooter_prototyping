@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Flywheel extends SubsystemBase {
@@ -32,33 +33,38 @@ public class Flywheel extends SubsystemBase {
 
     private SparkMax motor0 = new SparkMax(5, MotorType.kBrushless);
     private SparkMax motor1 = new SparkMax(6, MotorType.kBrushless);
+    private SparkMax kicker = new SparkMax(7, MotorType.kBrushless);
 
     private SparkMaxSim motorsSim = new SparkMaxSim(motor0, GEARBOX);
     private FlywheelSim flywheelModel = new FlywheelSim(
         LinearSystemId.createFlywheelSystem(
             GEARBOX, 0.0019021577, 1), GEARBOX);
 
-    private Command spinUp = run(
+    public Command spinUp = Commands.run(
         () -> motor0
             .getClosedLoopController()
-            .setSetpoint(1000, ControlType.kVelocity)
+            .setSetpoint(3000, ControlType.kVelocity)
         ).withName("spinUp");
-    private Command spinDown = run(() -> motor0.set(0)).withName("spinDown");
+    public Command spinDown = Commands.run(() -> motor0.set(0)).withName("spinDown");
+
+    public Command kickUp = Commands.run(() -> kicker.set(-1)).withName("kickUp");
+    public Command kickDown = Commands.run(() -> kicker.set(0)).withName("kickDown");
 
     public Flywheel() {
         SparkMaxConfig configroot = new SparkMaxConfig();
         configroot
+            .inverted(true)
             .smartCurrentLimit(50)
             .idleMode(IdleMode.kCoast)
             .apply(
                 new ClosedLoopConfig()
-                    .p(0.001)
+                    .p(0.0001)
                     .i(0)
                     .d(0)
                     .outputRange(-1, 1)
                     .apply(
                         new FeedForwardConfig()
-                            .kV(0.002)
+                            .kV(0.00017)
                     ).feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             )
         ;
@@ -78,10 +84,12 @@ public class Flywheel extends SubsystemBase {
         motor1.resumeFollowerMode();
         SmartDashboard.putData(spinUp);
         SmartDashboard.putData(spinDown);
+        SmartDashboard.putData(kickUp);
+        SmartDashboard.putData(kickDown);
         SmartDashboard.putBoolean("is the follower following", motor1.isFollower());
         SmartDashboard.putNumber("Left Out", motor0.getAppliedOutput());
         SmartDashboard.putNumber("Right Out", motor1.getAppliedOutput());
-        SmartDashboard.putNumber("Angular", flywheelModel.getAngularVelocityRPM());
+        SmartDashboard.putNumber("Angular", motor0.getEncoder().getVelocity());
         motor1.resumeFollowerMode();
     }
 
