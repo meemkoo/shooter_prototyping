@@ -26,7 +26,7 @@ public class RobotContainer {
 
     private void configureBindings() {
         dctl.a().whileTrue(shooter.spinUp).whileFalse(shooter.spinDown);
-        dctl.b().whileTrue(shooter.kickUp).whileFalse(shooter.kickDown);
+        // dctl.b().whileTrue(shooter.kickUp).whileFalse(shooter.kickDown);
     }
 
     public Command getAutonomousCommand() {

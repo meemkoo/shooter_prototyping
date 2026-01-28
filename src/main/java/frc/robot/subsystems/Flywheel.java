@@ -31,9 +31,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Flywheel extends SubsystemBase {
     private final DCMotor GEARBOX = DCMotor.getNEO(2);
 
-    private SparkMax motor0 = new SparkMax(5, MotorType.kBrushless);
-    private SparkMax motor1 = new SparkMax(6, MotorType.kBrushless);
-    private SparkMax kicker = new SparkMax(7, MotorType.kBrushless);
+    private SparkMax motor0 = new SparkMax(6, MotorType.kBrushless);
+    // private SparkMax motor1 = new SparkMax(6, MotorType.kBrushless);
+    // private SparkMax kicker = new SparkMax(7, MotorType.kBrushless);
 
     private SparkMaxSim motorsSim = new SparkMaxSim(motor0, GEARBOX);
     private FlywheelSim flywheelModel = new FlywheelSim(
@@ -43,12 +43,12 @@ public class Flywheel extends SubsystemBase {
     public Command spinUp = Commands.run(
         () -> motor0
             .getClosedLoopController()
-            .setSetpoint(3000, ControlType.kVelocity)
+            .setSetpoint(2900, ControlType.kVelocity)
         ).withName("spinUp");
     public Command spinDown = Commands.run(() -> motor0.set(0)).withName("spinDown");
 
-    public Command kickUp = Commands.run(() -> kicker.set(-1)).withName("kickUp");
-    public Command kickDown = Commands.run(() -> kicker.set(0)).withName("kickDown");
+    // public Command kickUp = Commands.run(() -> kicker.set(-1)).withName("kickUp");
+    // public Command kickDown = Commands.run(() -> kicker.set(0)).withName("kickDown");
 
     public Flywheel() {
         SparkMaxConfig configroot = new SparkMaxConfig();
@@ -58,7 +58,7 @@ public class Flywheel extends SubsystemBase {
             .idleMode(IdleMode.kCoast)
             .apply(
                 new ClosedLoopConfig()
-                    .p(0.0001)
+                    .p(0.0002)
                     .i(0)
                     .d(0)
                     .outputRange(-1, 1)
@@ -76,21 +76,21 @@ public class Flywheel extends SubsystemBase {
 
         // Persist parameters to retain configuration in the event of a power cycle
         motor0.configure(configroot, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        motor1.configure(auxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        // motor1.configure(auxConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     @Override
     public void periodic() {
-        motor1.resumeFollowerMode();
+        // motor1.resumeFollowerMode();
         SmartDashboard.putData(spinUp);
         SmartDashboard.putData(spinDown);
-        SmartDashboard.putData(kickUp);
-        SmartDashboard.putData(kickDown);
-        SmartDashboard.putBoolean("is the follower following", motor1.isFollower());
+        // SmartDashboard.putData(kickUp);
+        // SmartDashboard.putData(kickDown);
+        // SmartDashboard.putBoolean("is the follower following", motor1.isFollower());
         SmartDashboard.putNumber("Left Out", motor0.getAppliedOutput());
-        SmartDashboard.putNumber("Right Out", motor1.getAppliedOutput());
+        //SmartDashboard.putNumber("Right Out", motor1.getAppliedOutput());
         SmartDashboard.putNumber("Angular", motor0.getEncoder().getVelocity());
-        motor1.resumeFollowerMode();
+        //motor1.resumeFollowerMode();
     }
 
     @Override
