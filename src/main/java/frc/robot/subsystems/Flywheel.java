@@ -58,13 +58,13 @@ public class Flywheel extends SubsystemBase {
             .idleMode(IdleMode.kCoast)
             .apply(
                 new ClosedLoopConfig()
-                    .p(0.0002)
+                    .p(0.00002)
                     .i(0)
                     .d(0)
                     .outputRange(-1, 1)
                     .apply(
                         new FeedForwardConfig()
-                            .kV(0.00017)
+                            .kV(0.00020)
                     ).feedbackSensor(FeedbackSensor.kPrimaryEncoder)
             )
         ;
